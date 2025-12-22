@@ -6,7 +6,7 @@
   
   <h1>Rusty Chat</h1>
   
-  <p><strong>A complete open-source chat system supporting text and multimedia communication - including video and audio calls, built with the Rust programming language and the Axum framework. <br/> <br/> All free for the global opensource community.</strong></p>
+  <p><strong>A complete open-source chat system supporting text and multimedia communication - including video and audio calls, built with the Rust programming language and the Axum framework.</strong></p>
 
   <p>At it's core, the main goal of the project, is to produce a complete backend-only layer that can be integrated to suit any desired frontend whether on the web, or on mobile platforms.</p>
 
@@ -25,13 +25,13 @@
 
 ## 🚀 Welcome to Rusty Chat
 
-Rusty Chat is an ambitious open-source project dedicated to building a high-performance, secure, and modern communication infrastructure. Leveraging the power of **Rust** and the **Axum** framework, we aim to provide a comprehensive solution for real-time text and multimedia messaging(high-quality voice and video calls).
+Rusty Chat is an ambitious open-source project dedicated to building a high-performance, secure, and modern communication infrastructure. Leveraging the power of **Rust** and the **Axum** framework, we aim to provide a comprehensive solution for real-time text and multimedia messaging(including high-quality voice and video calls).
 
 ## ✨ Core Features
 
 - **Unified Messaging**: Seamless support for text, images, and multimedia files.
 - **Personal Spaces**: Customizable private note-taking spaces for personal knowledge management.
-- **Real-time Communication**: Architected for low-latency interactions including planned video and audio calls.
+- **Real-time Communication**: Architected for low-latency interactions including high-quality voice and video calls.
 - **Domain-Driven Design (DDD)**: A clean, modular codebase designed for scalability and maintainability.
 - **Robust Security**: Industry-standard authentication using Argon2 hashing and JWT sessions.
 - **Cloud-Native Storage**: Scalable handling of multimedia assets with AWS S3 integration.
