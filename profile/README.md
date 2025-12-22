@@ -6,7 +6,7 @@
   
   <h1>Rusty Chat</h1>
   
-  <p><strong>A complete open-source chat system supporting text and multimedia communication - including video and audio calls, built with the Rust programming language and the Axum framework.</strong></p>
+  <p><strong>A complete open-source chat system supporting text and multimedia communication(including high-quality video and audio calling), built with the Rust programming language and the Axum framework.</strong></p>
 
   <p>At it's core, the main goal of the project, is to produce a complete backend-only layer that can be integrated to suit any desired frontend whether on the web, or on mobile platforms.</p>
 
