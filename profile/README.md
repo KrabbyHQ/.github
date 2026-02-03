@@ -15,8 +15,6 @@
 
 ---
 
-## 🚀 Krabby.
-
 Krabby is an open-source suite for building high-performance real-time communication systems.
 Built in Rust, Krabby provides low-level, production-grade primitives that engineering teams can use to design and operate modern messaging platforms with full control over performance, security, and architecture.
 
