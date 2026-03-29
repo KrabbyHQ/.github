@@ -33,7 +33,7 @@ This section provides technical documentation that covers the entire Krabby ecos
 
 1. [Design Philosophy](#-design-philosophy)
 
-2. [WebRTC: Important Terms to Know](#-webrtc-important-terms-to-know)
+2. [WebRTC Glossary(Important Terms to Know)](#webrtc-glossary-important-terms-to-know)
 
 3. [Roadmap](#-roadmap)
 
@@ -51,23 +51,110 @@ All Krabby services are intentionally built to be **highly modular and minimal**
 
 *   **Architectural Simplicity:** We consciously avoid overly complex backend patterns(like heavy Event-Driven Architectures) in the core primitives. This allows teams of all sizes to adapt the base easily. 
 
-> This explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
+> This further explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
 
-### WebRTC: Important Terms to Know
+### WebRTC Glossary(Important Terms to Know)
 
-Navigating real-time communication requires a foundational understanding of the WebRTC(Web Real-Time Communication) protocol. Krabby abstracts much of this, but knowing these terms is critical for custom integrations:
+Krabby uses **WebRTC(Web Real-Time Communication)** to enable real-time audio, video, and data exchange between clients. While much of the complexity is abstracted away, understanding the core terminology will help when integrating, debugging, or extending the system.
 
-1.  **ICE Candidate (Interactive Connectivity Establishment):** A protocol used to find the best way for two devices to talk to each other (e.g., direct P2P, via STUN, or via TURN relay).
+#### Peer Connection(`RTCPeerConnection`)
 
-2.  **SDP (Session Description Protocol):** A standard format for describing the parameters of a media connection, such as video resolution, audio codecs, and security keys.
+The **Peer Connection** is the core WebRTC interface responsible for managing communication between two peers.
 
-3.  **Offer/Answer:** The negotiation pattern where one peer sends an "Offer" (SDP) and the other responds with an "Answer" to establish the technical constraints of the call.
+It handles:
 
-4.  **Signaling:** The process of exchanging ICE candidates and SDPs via a third-party server. Krabby’s `rtc_signalling` service acts as this broker.
+* ICE candidate gathering and connectivity checks
+* Media stream transmission (audio/video)
+* Data channels
+* Encryption and security
 
-5.  **STUN/TURN Services:** 
-    *   **STUN:** Used to discover your public IP address.
-    *   **TURN:** Acts as a relay server when a direct P2P connection is blocked by strict firewalls or symmetric NATs.
+Most WebRTC integrations revolve around configuring and managing a **`RTCPeerConnection`** instance.
+
+#### ICE(Interactive Connectivity Establishment)
+
+**ICE** is the framework used to discover the best network path between two peers.
+
+Each peer gathers **ICE candidates** (possible connection routes) and exchanges them with the other peer. These candidates may represent:
+
+* Direct **peer-to-peer connections**
+* Paths discovered via **STUN**
+* Relayed connections through **TURN**
+
+ICE then tests these candidates and selects the most reliable route.
+
+#### NAT(Network Address Translation)
+
+Most devices operate behind **NAT routers**, which map private local IP addresses to a public IP.
+
+While necessary for modern networking, NAT can block direct peer-to-peer connections. WebRTC works around this using **ICE, STUN, and TURN**.
+
+#### SDP(Session Description Protocol)
+
+**SDP** is a standardized format used to describe a WebRTC session.
+
+It includes parameters such as:
+
+* Media types (audio, video, data)
+* Supported codecs
+* Encryption details
+* Network information
+
+SDPs are exchanged during connection negotiation.
+
+#### Offer/Answer Model
+
+WebRTC uses an **Offer/Answer negotiation pattern**:
+
+1. One peer generates an **Offer** containing an SDP describing its capabilities.
+2. The other peer responds with an **Answer** describing the compatible configuration.
+
+This exchange establishes the session parameters.
+
+#### Signaling
+
+**Signaling** is the process used to exchange connection metadata before a WebRTC connection is established.
+
+This typically includes:
+
+* SDP **offers and answers**
+* **ICE candidates**
+
+WebRTC does not define a signaling protocol. In the Krabby ecosystem, this role is handled by the **`rtc_signalling` service**.
+
+#### Data Channel(`RTCDataChannel`)
+
+A **Data Channel** enables peers to exchange arbitrary data directly over the WebRTC connection.
+
+Typical uses include:
+
+* Chat messaging
+* File transfer
+* Real-time application state
+
+Data channels are **low-latency, encrypted, and peer-to-peer**.
+
+#### SFU(Selective Forwarding Unit)
+
+An **SFU** is a server architecture used in multi-participant calls.
+
+Instead of mixing streams, an SFU:
+
+* Receives media streams from participants
+* Selectively forwards them to other participants
+
+This reduces bandwidth and CPU requirements compared to mesh networking.
+
+#### STUN and TURN
+
+These services help establish connections across NATs and firewalls.
+
+**STUN(Session Traversal Utilities for NAT)**
+Allows a client to discover its **public IP and port**, enabling direct peer-to-peer connectivity.
+
+**TURN(Traversal Using Relays around NAT)**
+Acts as a **relay server** when direct connectivity fails due to strict NAT or firewall restrictions.
+
+This set of concepts covers the **core building blocks involved in establishing and maintaining WebRTC connections within the Krabby ecosystem.**
 
 ### Roadmap
 
