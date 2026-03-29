@@ -17,69 +17,133 @@
 
 ---
 
-## 🦀 About Krabby
+## About Krabby
 
-**Krabby** is a production-grade, open-source suite designed for engineering teams who need full control over their real-time communication infrastructure. Built from the ground up with **Rust**, Krabby provides the low-level primitives necessary to build multi-media platforms that rival the performance and reliability of industry giants like WhatsApp, Zoom, and Signal—without the constraints of proprietary vendor lock-in.
+**Krabby** is a production-grade, open-source suite designed for engineering teams who need full control over their real-time communication infrastructure. Built from the ground up with **Rust**, Krabby provides the low-level primitives necessary to build multi-media platforms that rival the performance and reliability of industry giants like WhatsApp, Zoom, and Signal — without the constraints of proprietary vendor lock-in.
 
 Whether you are building high-concurrency chat systems, sub-millisecond audio/video calling, or large-scale presence engines, Krabby offers a decoupled, microservice-oriented architecture that scales horizontally and executes with the safety and speed of Rust.
 
 ---
 
-## 📖 Project Directory Study & Documentation
+## Documentation
 
-This section provides a high-level architectural overview and technical documentation of the Krabby ecosystem, serving as a roadmap for contributors and engineers.
+This section provides technical documentation that covers the entire Krabby ecosystem, detailing our architectural philosophy and the underlying protocols that power modern real-time systems.
 
-### 🏛️ Ecosystem Architecture
+### Table Of Content
 
-The project is structured as a suite of specialized services, each responsible for a specific domain of the communication lifecycle.
+1. [Design Philosophy](#-design-philosophy)
 
-#### 🛡️ Identity & Access Management (`chat__auth_server`)
-The gateway to the Krabby ecosystem. This service handles user onboarding and security.
-*   **Key Responsibilities:** Registration, Login/Logout, JWT token generation (Access & Refresh), and secure password hashing.
-*   **Tech Stack:** Axum, SQLx, PostgreSQL, Argon2.
-*   **Pattern:** Follows a strict query-param based logout pattern for cross-client reliability.
+2. [WebRTC: Important Terms to Know](#-webrtc-important-terms-to-know)
 
-#### ⚙️ Business Logic & Persistence (`chat__core_rest_api_server`)
-The primary engine for stateful operations.
-*   **Key Responsibilities:** Domain-driven management of users, rooms (Private/Group), message history, and administrative controls.
-*   **Storage:** PostgreSQL for metadata and AWS S3 for multimedia attachments/profiles.
+3. [Roadmap](#-roadmap)
+
+4. [Architectural Overview](#-architectural-overview)
+
+5. [Development & Open Source Standards](#-development--open-source-standards)
+
+6. [Getting Involved](#-getting-involved)
+
+### Design Philosophy
+
+All Krabby services are intentionally built to be **highly modular and minimal**. This approach prevents bloat, eases developer onboarding, and enhances the flexibility/extensibility of the entire suite.
+
+*   **Modular Microservices:** We decouple Identity, Logic, Real-time Data, and Signaling into specialized Rust binaries.
+
+*   **Architectural Simplicity:** We consciously avoid overly complex backend patterns(like heavy Event-Driven Architectures) in the core primitives. This allows teams of all sizes to adapt the base easily. 
+
+> This explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
+
+### WebRTC: Important Terms to Know
+
+Navigating real-time communication requires a foundational understanding of the WebRTC(Web Real-Time Communication) protocol. Krabby abstracts much of this, but knowing these terms is critical for custom integrations:
+
+1.  **ICE Candidate (Interactive Connectivity Establishment):** A protocol used to find the best way for two devices to talk to each other (e.g., direct P2P, via STUN, or via TURN relay).
+
+2.  **SDP (Session Description Protocol):** A standard format for describing the parameters of a media connection, such as video resolution, audio codecs, and security keys.
+
+3.  **Offer/Answer:** The negotiation pattern where one peer sends an "Offer" (SDP) and the other responds with an "Answer" to establish the technical constraints of the call.
+
+4.  **Signaling:** The process of exchanging ICE candidates and SDPs via a third-party server. Krabby’s `rtc_signalling` service acts as this broker.
+
+5.  **STUN/TURN Services:** 
+    *   **STUN:** Used to discover your public IP address.
+    *   **TURN:** Acts as a relay server when a direct P2P connection is blocked by strict firewalls or symmetric NATs.
+
+### Roadmap
+
+Once fully stable, Krabby will be available for use in three distinct modes:
+
+1.  **Raw APIs:** For direct integrations by teams that want maximum control. You host the backend primitives; Krabby provides the code.
+
+2.  **SDKs(Most Recommended):** Optimized for speed of integration. These provide high-level wrappers around our raw APIs for Web, Mobile, and Desktop, while you maintain ownership of the self-hosted backend.
+
+3.  **Buck(by Krabby):** Krabby's SaaS(Software-as-a-Service) solution. **Buck** allows engineering teams to completely bypass the hassle involved with self-hosting. Upon launch, teams can simply subscribe to our enterprise cloud and get access to managed Krabby APIs and premium SDKs instantly.
+
+### Architectural Overview
+
+The Krabby project is structured as a suite of specialized services, each responsible for a specific domain of the communication lifecycle.
+
+#### Identity & Access Management(`chat__auth_server`)
+
+The gateway to the Krabby ecosystem. This service handles user onboarding and secures all other services.
+
+*   **Responsibilities:** Registration, Login/Logout, JWT token management (Access & Refresh), and Argon2 password hashing.
+*   **Tech Stack:** Axum, SQLx, PostgreSQL.
+
+#### Business Logic & Persistence(`chat__core_rest_api_server`)
+
+The primary engine for stateful operations, designed for teams that need robust social features beyond just calling.
+
+*   **Responsibilities:** Management of users, rooms (Private/Group), message history, and admin controls.
 *   **Features:** Bookmarking, pinning, archiving, and edit-history tracking.
+*   **Tech Stack:** Axum, SQLx, AWS S3.
 
-#### ⚡ Real-time Streaming (`chat__web_socket_server`)
+#### Real-time Streaming(`chat__web_socket_server`)
+
 A high-concurrency stateful server designed for live data delivery.
-*   **Key Responsibilities:** Message broadcasting, real-time presence (online/offline status), and typing indicators.
-*   **Infrastructure:** Built on `tokio` for non-blocking I/O, capable of handling thousands of concurrent socket connections.
 
-#### 📞 Call Negotiation (`rtc_signalling`)
+*   **Responsibilities:** Message broadcasting, real-time presence (online/offline), typing indicators, and syncing with the core REST API.
+*   **Tech Stack:** Tokio (Async I/O), Axum WebSockets.
+
+#### Call Negotiation(`rtc_signalling`)
+
 The broker for peer-to-peer multimedia sessions.
-*   **Key Responsibilities:** WebRTC signalling (SDP Offer/Answer exchange) and ICE candidate relaying.
-*   **Focus:** Focused on low-latency signaling to ensure rapid call establishment for Audio and Video.
 
-#### 📱 Multi-Platform Clients (`demo_clients`)
-Reference implementations showcasing the integration of Krabby APIs.
-*   **Web (`nextjs__raw_krabby_chat_api_integrations`):** A high-fidelity Next.js 16 platform utilizing Redux Toolkit and Axios for robust state management.
-*   **Mobile (`react_native__raw_krabby_chat_api_integrations`):** A cross-platform Expo/React Native application duplicating the web experience with optimized mobile UI/UX.
+*   **Responsibilities:** Low-latency relay of SDP Offer/Answer exchanges and ICE candidates.
+*   **Focus:** Focused on sub-millisecond signal delivery to ensure rapid call establishment.
 
----
+#### Multi-Platform Clients(`demo_clients`)
 
-### 🛠️ Development & Open Source Standards
+Reference implementations showcasing best-practice API integrations.
 
-Krabby is built to world-class standards, ensuring that the project remains maintainable, secure, and easy to contribute to.
+*   **Web:** A high-fidelity Next.js 16 platform utilizing Redux Toolkit.
+*   **Mobile:** A cross-platform Expo/React Native application duplicating the desktop-grade experience.
+
+#### STUN/TURN Infrastructure
+
+For robust connectivity, Krabby integrates seamlessly with the popular open-source **[Coturn](https://github.com/coturn/coturn)** project to provide production-grade relay services.
+
+### Development & Open Source Standards
+
+Krabby is built to world-class standards, ensuring that the project remains maintainable, easy to use/integrate, secure, and easy to scale.
 
 *   **Standardized Commits:** We enforce [Conventional Commits](https://conventionalcommits.org) using `commitlint` to maintain a readable and automated changelog.
-*   **Automated Quality Assurance:** Every sub-project utilizes `Husky` git hooks. We run `cargo fmt`, `clippy`, and compilation checks before any code reaches the remote repository.
+
+*   **Automated Quality Assurance:** Every project utilizes `Husky` git hooks. We run local compilation checks and static analysis (`cargo fmt`, `clippy`, `prettier`, `eslint`) before any code is pushed.
+
 *   **Unified Configuration:** All backend services use a hierarchical configuration system (`config/base.toml` -> `env.toml` -> `local.toml`) combined with `APP__` environment variable overrides.
-*   **Type Safety:** We maintain a centralized [Data Modeling Reference](https://github.com/KrabbyHQ/demo_clients/blob/main/docs/reference/data_model/schema.sql) to ensure consistency across Rust backends and TypeScript frontends.
 
----
+*   **Type Safety:** We maintain a centralized **[Data Modeling Reference](https://github.com/KrabbyHQ/demo_clients/blob/main/docs/reference/data_model/schema.sql)** to ensure consistency between Rust backends and TypeScript or similar frontends.
 
-### 🚀 Getting Involved
+### Getting Involved
 
 Krabby is built by the community, for the community. We welcome contributions ranging from core Rust performance optimizations to high-fidelity frontend UI components.
 
 1.  **Explore the Code:** Dive into the respective service directories to read their localized documentation.
+
 2.  **Follow the Standards:** Ensure your environment is set up with `bun` and `rustup` to trigger the automated contribution checks.
-3.  **Build the Future:** Help us define the next generation of open-source communication.
+
+3.  **Build the Future:** Help us define the next generation of real-time communication infrastructure.
 
 <br />
 
