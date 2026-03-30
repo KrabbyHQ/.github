@@ -19,7 +19,7 @@
 
 ## About Krabby
 
-**Krabby** is a production-grade, open-source suite designed for engineering teams who need full control over their real-time communication infrastructure. Built from the ground up with **Rust**, Krabby provides the low-level primitives necessary to build multi-media platforms that rival the performance and reliability of industry giants like WhatsApp, Zoom, and Signal — without the constraints of proprietary vendor lock-in.
+**Krabby** is a production-grade, open-source suite designed for engineering teams who need full control over their real-time communication infrastructure. Built from the ground up with **Rust**, Krabby provides the low-level primitives necessary to build multi-media platforms that rival the performance and reliability of industry giants like WhatsApp, Zoom, and Signal - without the constraints of proprietary vendor lock-in.
 
 Whether you are building high-concurrency chat systems, sub-millisecond audio/video calling, or large-scale presence engines, Krabby offers a decoupled, microservice-oriented architecture that scales horizontally and executes with the safety and speed of Rust.
 
@@ -27,7 +27,7 @@ Whether you are building high-concurrency chat systems, sub-millisecond audio/vi
 
 ## Documentation
 
-This section provides technical documentation that covers the entire Krabby ecosystem, detailing our architectural philosophy and the underlying protocols that power modern real-time systems.
+This section provides technical documentation for the entire Krabby project. It details our architectural philosophy, provides a general overview into the Krabby ecosystem, and includes the key information needed to help you settle quickly into intergating our services.
 
 ### Table Of Content
 
@@ -174,7 +174,7 @@ Once fully stable, Krabby will be available for use in three distinct modes:
 
 ### Our Core Rust Stack.
 
-Krabby is built using a modern, high-performance Rust ecosystem tooling that are designed for reliability, scalability, and strong type safety. The stack emphasizes asynchronous execution, efficient resource usage, and production-grade security while remaining modular enough to support multiple specialized services such as authentication, core APIs, real-time messaging, and RTC signaling.
+Krabby is built using modern, high-performance Rust ecosystem tooling that are designed for reliability, scalability, and strong type safety. The stack emphasizes asynchronous execution, efficient resource usage, and production-grade security while remaining modular enough to support multiple specialized services such as authentication, core APIs, real-time messaging, and RTC signaling.
 
 The technologies listed below form the foundation of the system. They handle everything from request routing and asynchronous execution to data persistence, authentication, configuration management, and infrastructure integration.
 
@@ -284,7 +284,6 @@ The primary engine for stateful operations, designed for teams that need robust 
 A high-concurrency stateful server designed for live data delivery.
 
 *   **Responsibilities:** Message broadcasting, real-time presence (online/offline), typing indicators, and syncing with the core REST API.
-*   **Tech Stack:** Tokio(Async I/O), Axum WebSockets.
 
 #### Call Negotiation([`rtc_signalling`](https://github.com/KrabbyHQ/rtc_signalling))
 
@@ -297,12 +296,12 @@ The broker for peer-to-peer multimedia sessions.
 
 Reference implementations showcasing best-practice API integrations.
 
-*   **Web:** A high-fidelity Next.js 16 platform utilizing Redux Toolkit.
-*   **Mobile:** A cross-platform Expo/React Native application duplicating the desktop-grade experience.
+*   **Web:** A high-fidelity Next.js 16 platform built to production-grade standards, with state-of-art web engineering tooling.
+*   **Mobile:** A cross-platform Expo/React Native application built to provide a matching experience for mobile platforms.
 
 #### STUN/TURN Infrastructure
 
-For robust connectivity, Krabby integrates seamlessly with the popular open-source **[Coturn](https://github.com/coturn/coturn)** project to provide production-grade relay services.
+For robust connectivity, all related Krabby services will integrate the popular open-source **[Coturn](https://github.com/coturn/coturn)** project to provide production-grade relay services.
 
 ### Development & Open Source Standards
 
@@ -310,11 +309,11 @@ Krabby is built to world-class standards, ensuring that the project remains main
 
 *   **Standardized Commits:** We enforce [Conventional Commits](https://conventionalcommits.org) using `commitlint` to maintain a readable and automated changelog.
 
-*   **Automated Quality Assurance:** Every project utilizes `Husky` git hooks. We run local compilation checks and static analysis (`cargo fmt`, `clippy`, `prettier`, `eslint`) before any code is pushed.
+*   **Automated Quality Assurance:** Every project utilizes `Husky` git hooks. We run local compilation checks and static analysis(`cargo fmt`, `clippy`, `prettier`, `eslint` - as the case may be) before any code is pushed. Our github CI workflow on each project further helps to ensure all deployments meet the required standards.
 
-*   **Unified Configuration:** All backend services use a hierarchical configuration system (`config/base.toml` -> `env.toml` -> `local.toml`) combined with `APP__` environment variable overrides.
+*   **Unified Configuration:** All backend services use a hierarchical configuration system(`config/base.toml` -> `env.toml` -> `local.toml`) combined with `APP__` environment variable overrides. This helps us maintain uniform config standards across board in the most professional way possible.
 
-*   **Type Safety:** We maintain a centralized **[Data Modeling Reference](https://github.com/KrabbyHQ/demo_clients/blob/main/docs/reference/data_model/schema.sql)** to ensure consistency between Rust backends and TypeScript or similar frontends.
+*   **Type Safety:** We maintain a centralized **[Data Modeling Reference](https://github.com/KrabbyHQ/demo_clients/blob/main/docs/reference/data_model/schema.sql)** to ensure consistency between Rust backends and TypeScript(or similar) frontends.
 
 ### Getting Involved
 
