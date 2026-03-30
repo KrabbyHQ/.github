@@ -33,7 +33,7 @@ This section provides technical documentation for the entire Krabby project. It 
 
 1. [Design Philosophy](#design-philosophy)
 
-2. [WebRTC Glossary (Important Terms to Know)](#webrtc-glossary-important-terms-to-know)
+2. [WebRTC Glossary](#webrtc-glossary)
 
 3. [Our Roadmap](#our-roadmap)
 
@@ -57,7 +57,7 @@ All Krabby services are intentionally built to be **highly modular and minimal**
 
 > This further explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
 
-### WebRTC Glossary(Important Terms to Know)
+### WebRTC Glossary
 
 Krabby uses **WebRTC(Web Real-Time Communication)** to enable real-time audio, video, and data exchange between clients. While much of the complexity is abstracted away, understanding the core terminology will help when integrating, debugging, or extending the system.
 
