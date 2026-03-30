@@ -1,0 +1,16 @@
+# Ignore artifacts:
+coverage
+
+# node modules
+node_modules
+
+# nextjs
+.next
+
+# build
+out
+build
+dist
+
+# bun
+bun.lock
