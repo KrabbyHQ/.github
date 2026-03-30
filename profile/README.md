@@ -11,7 +11,7 @@
   <p>
     <a href="https://github.com/KrabbyHQ"><img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Rust" /></a>
     <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License" />
-    <img src="https://img.shields.io/badge/Status-Active-green?style=for-the-badge" alt="Status" />
+    <img src="https://img.shields.io/badge/Status-Pre--release-orange?style=for-the-badge" alt="Status" />
   </p>
 </div>
 
@@ -149,9 +149,11 @@ This reduces bandwidth and CPU requirements compared to mesh networking.
 These services help establish connections across NATs and firewalls.
 
 **STUN(Session Traversal Utilities for NAT)**
+
 Allows a client to discover its **public IP and port**, enabling direct peer-to-peer connectivity.
 
 **TURN(Traversal Using Relays around NAT)**
+
 Acts as a **relay server** when direct connectivity fails due to strict NAT or firewall restrictions.
 
 This set of concepts covers the **core building blocks involved in establishing and maintaining WebRTC connections within the Krabby ecosystem.**
@@ -166,40 +168,128 @@ Once fully stable, Krabby will be available for use in three distinct modes:
 
 3.  **Buck(by Krabby):** Krabby's SaaS(Software-as-a-Service) solution. **Buck** allows engineering teams to completely bypass the hassle involved with self-hosting. Upon launch, teams can simply subscribe to our enterprise cloud and get access to managed Krabby APIs and premium SDKs instantly.
 
+### Our Rust Stack.
+
+Krabby is built using a modern, high-performance Rust ecosystem tooling that are designed for reliability, scalability, and strong type safety. The stack emphasizes asynchronous execution, efficient resource usage, and production-grade security while remaining modular enough to support multiple specialized services such as authentication, core APIs, real-time messaging, and RTC signaling.
+
+The technologies listed below form the foundation of the system. They handle everything from request routing and asynchronous execution to data persistence, authentication, configuration management, and infrastructure integration.
+
+## Framework & Async Runtime
+
+- **[Axum](https://github.com/tokio-rs/axum)**  
+ 
+  Primary web framework used across all services (`auth`, `core`, `websocket`, and `signaling`). Provides modular, type-safe routing built on top of `tower` and `hyper`.
+
+- **[Tokio](https://tokio.rs/)**  
+ 
+  Asynchronous runtime powering the system’s high-concurrency workloads, particularly the WebSocket and signaling services.
+
+## Persistence & Data
+
+- **[SQLx](https://github.com/launchbadge/sqlx)**  
+
+  Asynchronous SQL toolkit used with **PostgreSQL**, featuring compile-time query validation and a built-in migration system.
+
+- **[PostgreSQL](https://www.postgresql.org/)**  
+
+  Primary relational database engine used for all stateful services.
+
+## Security & Identity
+
+- **[Argon2](https://github.com/RustCrypto/password-hashes/tree/master/argon2)**  
+
+  Production-grade, side-channel–resistant password hashing used in the `auth_server`.
+
+- **[JSON Web Tokens (JWT)](https://github.com/Keats/jsonwebtoken)**  
+
+  Stateless authentication mechanism using access and refresh token pairs for session management.
+
+## Real-Time & Signaling
+
+- **[WebSockets](https://docs.rs/axum/latest/axum/extract/ws/index.html)** 
+ 
+  Integrated via Axum to support live messaging, presence tracking, and RTC signal relay.
+
+- **WebRTC Primitives**  
+
+  Custom signaling logic in `rtc_signalling` responsible for SDP(offer/answer) negotiation and ICE candidate exchange.
+
+## Configuration & Environment
+
+- **[config-rs](https://github.com/mehcode/config-rs)**  
+
+  Layered configuration system that merges:
+
+  - `base.toml`
+  - environment-specific configs (e.g., `development`, `production`)
+  - `APP__`-prefixed environment variables
+
+- **[Dotenvy](https://github.com/allan2/dotenvy)**  
+
+  Loads environment variables from `.env` files during local development.
+
+## Observability & Logging
+
+- **[Tracing](https://github.com/tokio-rs/tracing)**  
+
+  Structured logging framework used to track request lifecycles and system events.
+
+- **[tracing-subscriber](https://docs.rs/tracing-subscriber)** 
+ 
+  Configured to emit JSON logs suitable for production log aggregation systems.
+
+## Infrastructure Integration
+
+- **[AWS SDK for Rust](https://github.com/awslabs/aws-sdk-rust)** 
+ 
+  Used primarily for **S3** integration in the `core_rest_api_server` to manage user profile images and message attachments.
+
+## Key Utilities
+
+- **[Serde](https://serde.rs/)**  
+
+  Framework for serializing and deserializing Rust data structures such as JSON and TOML.
+
+- **[Chrono](https://github.com/chronotope/chrono)**  
+
+  Library for robust date and time handling.
+
+- **[UUID](https://github.com/uuid-rs/uuid)**  
+
+  Generates unique identifiers across distributed services.
+
 ### Architectural Overview
 
 The Krabby project is structured as a suite of specialized services, each responsible for a specific domain of the communication lifecycle.
 
-#### Identity & Access Management(`chat__auth_server`)
+#### Identity & Access Management([`chat__auth_server`](https://github.com/KrabbyHQ/chat__auth_server))
 
 The gateway to the Krabby ecosystem. This service handles user onboarding and secures all other services.
 
 *   **Responsibilities:** Registration, Login/Logout, JWT token management (Access & Refresh), and Argon2 password hashing.
-*   **Tech Stack:** Axum, SQLx, PostgreSQL.
 
-#### Business Logic & Persistence(`chat__core_rest_api_server`)
+#### Business Logic & Persistence([`chat__core_rest_api_server`](https://github.com/KrabbyHQ/chat__core_rest_api_server))
 
 The primary engine for stateful operations, designed for teams that need robust social features beyond just calling.
 
 *   **Responsibilities:** Management of users, rooms (Private/Group), message history, and admin controls.
 *   **Features:** Bookmarking, pinning, archiving, and edit-history tracking.
-*   **Tech Stack:** Axum, SQLx, AWS S3.
 
-#### Real-time Streaming(`chat__web_socket_server`)
+#### Real-time Streaming([`chat__web_socket_server`](https://github.com/KrabbyHQ/chat__web_socket_server))
 
 A high-concurrency stateful server designed for live data delivery.
 
 *   **Responsibilities:** Message broadcasting, real-time presence (online/offline), typing indicators, and syncing with the core REST API.
-*   **Tech Stack:** Tokio (Async I/O), Axum WebSockets.
+*   **Tech Stack:** Tokio(Async I/O), Axum WebSockets.
 
-#### Call Negotiation(`rtc_signalling`)
+#### Call Negotiation([`rtc_signalling`](https://github.com/KrabbyHQ/rtc_signalling))
 
 The broker for peer-to-peer multimedia sessions.
 
 *   **Responsibilities:** Low-latency relay of SDP Offer/Answer exchanges and ICE candidates.
 *   **Focus:** Focused on sub-millisecond signal delivery to ensure rapid call establishment.
 
-#### Multi-Platform Clients(`demo_clients`)
+#### Multi-Platform Clients([`demo_clients`](https://github.com/KrabbyHQ/demo_clients))
 
 Reference implementations showcasing best-practice API integrations.
 
