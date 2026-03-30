@@ -55,7 +55,7 @@ All Krabby services are intentionally built to be **highly modular and minimal**
 
 - **Architectural Simplicity:** We consciously avoid overly complex backend patterns(like heavy Event-Driven Architectures) in the core primitives. This allows teams of all sizes to adapt the base easily.
 
-> This further explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
+  > This further explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
 
 ### WebRTC Glossary
 
