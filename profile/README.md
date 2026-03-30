@@ -33,9 +33,9 @@ This section provides technical documentation for the entire Krabby project. It 
 
 1. [Design Philosophy](#design-philosophy)
 
-2. [WebRTC Glossary(Important Terms to Know)](#webrtc-glossary-important-terms-to-know)
+2. [WebRTC Glossary (Important Terms to Know)](#webrtc-glossary-important-terms-to-know)
 
-3. [Our Roadmap](#roadmap)
+3. [Our Roadmap](#our-roadmap)
 
 4. [Our Core Rust Stack](#our-core-rust-stack)
 
