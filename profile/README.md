@@ -37,11 +37,15 @@ This section provides technical documentation that covers the entire Krabby ecos
 
 3. [Roadmap](#-roadmap)
 
-4. [Architectural Overview](#-architectural-overview)
+4. [Our Core Rust Stack](#-our-core-rust-stack)
 
-5. [Development & Open Source Standards](#-development--open-source-standards)
+5. [Architectural Overview](#-architectural-overview)
 
-6. [Getting Involved](#-getting-involved)
+6. [Development & Open Source Standards](#-development--open-source-standards)
+
+7. [Getting Involved](#-getting-involved)
+
+8. [FAQs](#-faqs)
 
 ### Design Philosophy
 
@@ -168,13 +172,13 @@ Once fully stable, Krabby will be available for use in three distinct modes:
 
 3.  **Buck(by Krabby):** Krabby's SaaS(Software-as-a-Service) solution. **Buck** allows engineering teams to completely bypass the hassle involved with self-hosting. Upon launch, teams can simply subscribe to our enterprise cloud and get access to managed Krabby APIs and premium SDKs instantly.
 
-### Our Rust Stack.
+### Our Core Rust Stack.
 
 Krabby is built using a modern, high-performance Rust ecosystem tooling that are designed for reliability, scalability, and strong type safety. The stack emphasizes asynchronous execution, efficient resource usage, and production-grade security while remaining modular enough to support multiple specialized services such as authentication, core APIs, real-time messaging, and RTC signaling.
 
 The technologies listed below form the foundation of the system. They handle everything from request routing and asynchronous execution to data persistence, authentication, configuration management, and infrastructure integration.
 
-## Framework & Async Runtime
+#### Framework & Async Runtime
 
 - **[Axum](https://github.com/tokio-rs/axum)**  
  
@@ -184,7 +188,7 @@ The technologies listed below form the foundation of the system. They handle eve
  
   Asynchronous runtime powering the system’s high-concurrency workloads, particularly the WebSocket and signaling services.
 
-## Persistence & Data
+#### Persistence & Data
 
 - **[SQLx](https://github.com/launchbadge/sqlx)**  
 
@@ -194,7 +198,7 @@ The technologies listed below form the foundation of the system. They handle eve
 
   Primary relational database engine used for all stateful services.
 
-## Security & Identity
+#### Security & Identity
 
 - **[Argon2](https://github.com/RustCrypto/password-hashes/tree/master/argon2)**  
 
@@ -204,7 +208,7 @@ The technologies listed below form the foundation of the system. They handle eve
 
   Stateless authentication mechanism using access and refresh token pairs for session management.
 
-## Real-Time & Signaling
+#### Real-Time & Signaling
 
 - **[WebSockets](https://docs.rs/axum/latest/axum/extract/ws/index.html)** 
  
@@ -214,7 +218,7 @@ The technologies listed below form the foundation of the system. They handle eve
 
   Custom signaling logic in `rtc_signalling` responsible for SDP(offer/answer) negotiation and ICE candidate exchange.
 
-## Configuration & Environment
+#### Configuration & Environment
 
 - **[config-rs](https://github.com/mehcode/config-rs)**  
 
@@ -228,7 +232,7 @@ The technologies listed below form the foundation of the system. They handle eve
 
   Loads environment variables from `.env` files during local development.
 
-## Observability & Logging
+#### Observability & Logging
 
 - **[Tracing](https://github.com/tokio-rs/tracing)**  
 
@@ -238,13 +242,13 @@ The technologies listed below form the foundation of the system. They handle eve
  
   Configured to emit JSON logs suitable for production log aggregation systems.
 
-## Infrastructure Integration
+#### Infrastructure Integration
 
 - **[AWS SDK for Rust](https://github.com/awslabs/aws-sdk-rust)** 
  
-  Used primarily for **S3** integration in the `core_rest_api_server` to manage user profile images and message attachments.
+  The AWS S3 SDK - for handling file storage.
 
-## Key Utilities
+#### Key Utilities
 
 - **[Serde](https://serde.rs/)**  
 
@@ -323,6 +327,64 @@ Krabby is built by the community, for the community. We welcome contributions ra
 3.  **Build the Future:** Help us define the next generation of real-time communication infrastructure.
 
 <br />
+
+### FAQs
+
+Below are answers to some common questions about Krabby, its goals, and how it is intended to be used. If you are new to the project, this section should help clarify expectations around usage, licensing, and the level of control Krabby is designed to provide.
+
+---
+
+### What problem does Krabby solve?
+
+Krabby is designed to help developers **build and control their own real-time communication infrastructure**. Instead of relying entirely on third-party RTC platforms, Krabby enables teams to run their own services for:
+
+- Real-time messaging
+
+- WebRTC signaling
+
+- Presence and event systems
+
+- Authentication and session management
+
+This approach gives teams **greater flexibility, ownership, and control over their real-time systems**.
+
+---
+
+### Must I know Rust to be able to use Krabby?
+
+While we aim to make Krabby as accessible as possible, the core philosophy of the project is to give developers **full control over their real-time communication infrastructure**. This level of control typically requires the ability to self-host and adapt the services that power your system.
+
+Because Krabby services are written in Rust, you will need **some working knowledge of Rust** — at least enough to understand, modify, and deploy your own customized Krabby services.
+
+If you don't know Rust and simply want to integrate SDKs and ship faster, you can instead use **[Buck(by Krabby)](#-roadmap)**, which provides a more accessible integration path.
+
+---
+
+### Is Krabby free to use?
+
+Yes. Upon the first stable release, **all Krabby APIs and SDKs will be publicly available** under the **MIT License**.
+
+This means you can freely use, modify, self-host, and integrate Krabby into your own applications or infrastructure.
+
+---
+
+### Can Krabby be used in production?
+
+Yes. Krabby is being designed with **production-grade architecture** in mind, including strong typing, async concurrency, structured logging, and secure authentication patterns.
+
+However, until the **first stable release**, APIs and internal components may still evolve.
+
+---
+
+### Do I need to self-host Krabby?
+
+Krabby is built primarily as a **self-hosted infrastructure toolkit**. This design ensures that developers and organizations maintain full ownership of their communication stack, performance characteristics, and data.
+
+Self-hosting also allows teams to customize services, optimize deployments, and scale according to their specific needs.
+
+If you wish to avoid the hassle of self-hosting and move straight to shipping with premium Krabby APIs/SDKs, checkout **[Buck(by Krabby)](#-roadmap)**.
+
+---
 
 <p align="center">
 Built with precision and ❤️ by the <strong>Krabby</strong> Engineering Team.
