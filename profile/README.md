@@ -168,7 +168,7 @@ Once fully stable, Krabby will be available for use in three distinct modes:
 
 1.  **Raw APIs:** For direct integrations by teams that want maximum control. You host the backend primitives; Krabby provides the code.
 
-2.  **SDKs(Most Recommended):** Optimized for speed of integration. These provide high-level wrappers around our raw APIs for Web, Mobile, and Desktop, while you maintain ownership of the self-hosted backend.
+2.  **SDKs(Most Recommended):** Optimized for speed of integration. These provide high-level wrappers around our raw APIs for Web, Mobile, and Desktop, while you still maintain ownership of the self-hosted backend.
 
 3.  **Buck(by Krabby):** Krabby's SaaS(Software-as-a-Service) solution. **Buck** allows engineering teams to completely bypass the hassle involved with self-hosting. Upon launch, teams can simply subscribe to our enterprise cloud and get access to managed Krabby APIs and premium SDKs instantly.
 
