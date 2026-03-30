@@ -42,8 +42,8 @@ This section provides technical documentation that covers the entire Krabby ecos
 
 All Krabby services are intentionally built to be **highly modular and minimal**. This approach prevents bloat, eases developer onboarding, and enhances the flexibility/extensibility of the entire suite.
 
-*   **Modular Microservices:** We decouple Identity, Logic, Real-time Data, and Signaling into specialized Rust binaries.
-*   **Architectural Simplicity:** We consciously avoid overly complex backend patterns (like heavy Event-Driven Architectures) in the core primitives. This allows teams of all sizes to adapt the base easily. 
+- **Modular Microservices:** We decouple Identity, Logic, Real-time Data, and Signaling into specialized Rust binaries.
+- **Architectural Simplicity:** We consciously avoid overly complex backend patterns (like heavy Event-Driven Architectures) in the core primitives. This allows teams of all sizes to adapt the base easily.
 
 > This further explains why all Krabby backend services are engineered to communicate with a single PostgreSQL database, providing a simple and stable foundation for teams that later wish to scale into more complex data architectures.
 
@@ -52,30 +52,39 @@ All Krabby services are intentionally built to be **highly modular and minimal**
 Krabby uses **WebRTC (Web Real-Time Communication)** to enable real-time audio, video, and data exchange between clients. While much of the complexity is abstracted away, understanding the core terminology will help when integrating, debugging, or extending the system.
 
 #### Peer Connection (`RTCPeerConnection`)
+
 The **Peer Connection** is the core WebRTC interface responsible for managing communication between two peers. It handles ICE candidate gathering, media stream transmission, and encryption.
 
 #### ICE (Interactive Connectivity Establishment)
+
 **ICE** is the framework used to discover the best network path between two peers. Each peer gathers **ICE candidates** and exchanges them to test the most reliable route (P2P, STUN, or TURN).
 
 #### NAT (Network Address Translation)
+
 Most devices operate behind **NAT routers**. WebRTC uses **ICE, STUN, and TURN** to establish connections through these routers.
 
 #### SDP (Session Description Protocol)
+
 **SDP** is a standardized format used to describe a WebRTC session, including media types, codecs, encryption, and network information.
 
 #### Offer/Answer Model
+
 WebRTC negotiation follows an **Offer/Answer pattern** where one peer generates an SDP Offer and the other responds with an Answer to establish session parameters.
 
 #### Signaling
+
 The process of exchanging connection metadata (SDP and ICE candidates) before establishing a connection. In Krabby, this is handled by the **[`rtc_signalling`](https://github.com/KrabbyHQ/rtc_signalling) service**.
 
 #### Data Channel (`RTCDataChannel`)
+
 Enables peers to exchange arbitrary data (chat, files, state) directly over an encrypted, low-latency WebRTC connection.
 
 #### SFU (Selective Forwarding Unit)
+
 A server architecture for multi-participant calls that receives media streams and selectively forwards them to others, optimizing bandwidth and CPU.
 
 #### STUN and TURN
+
 **STUN** allows a client to discover its public IP, while **TURN** acts as a relay server when direct connectivity is restricted by firewalls.
 
 ---
@@ -95,25 +104,35 @@ Once fully stable, Krabby will be available for use in three distinct modes:
 The Krabby project is structured as a suite of specialized services, each responsible for a specific domain of the communication lifecycle.
 
 #### Identity & Access Management ([`chat__auth_server`](https://github.com/KrabbyHQ/chat__auth_server))
+
 The gateway to the Krabby ecosystem. Handles user onboarding, JWT token management, and secure password hashing.
-*   **Tech Stack:** Axum, SQLx, PostgreSQL.
+
+- **Tech Stack:** Axum, SQLx, PostgreSQL.
 
 #### Business Logic & Persistence ([`chat__core_rest_api_server`](https://github.com/KrabbyHQ/chat__core_rest_api_server))
+
 The primary engine for stateful operations (users, rooms, message history) with features like bookmarking, pinning, and archiving.
-*   **Tech Stack:** Axum, SQLx, AWS S3.
+
+- **Tech Stack:** Axum, SQLx, AWS S3.
 
 #### Real-time Streaming ([`chat__web_socket_server`](https://github.com/KrabbyHQ/chat__web_socket_server))
+
 A high-concurrency stateful server for live data delivery, message broadcasting, and real-time presence.
-*   **Tech Stack:** Tokio (Async I/O), Axum WebSockets.
+
+- **Tech Stack:** Tokio (Async I/O), Axum WebSockets.
 
 #### Call Negotiation ([`rtc_signalling`](https://github.com/KrabbyHQ/rtc_signalling))
+
 The broker for peer-to-peer multimedia sessions, providing low-latency relay of SDPs and ICE candidates.
-*   **Focus:** Sub-millisecond signal delivery for rapid call establishment.
+
+- **Focus:** Sub-millisecond signal delivery for rapid call establishment.
 
 #### Multi-Platform Clients ([`demo_clients`](https://github.com/KrabbyHQ/demo_clients))
+
 Reference implementations showcasing best-practice API integrations for Web (Next.js) and Mobile (React Native).
 
 #### STUN/TURN Infrastructure
+
 Krabby integrates seamlessly with the open-source **[Coturn](https://github.com/coturn/coturn)** project to provide production-grade relay services.
 
 ---
@@ -122,10 +141,10 @@ Krabby integrates seamlessly with the open-source **[Coturn](https://github.com/
 
 Krabby maintains world-class standards for maintainability, security, and scalability.
 
-*   **Standardized Commits:** We enforce [Conventional Commits](https://conventionalcommits.org) using `commitlint`.
-*   **Automated Quality Assurance:** Every project utilizes `Husky` git hooks for local formatting, linting, and static analysis.
-*   **Unified Configuration:** Services share a hierarchical configuration system (`base.toml` -> `env.toml` -> `local.toml`) with environment variable overrides.
-*   **Type Safety:** We maintain a centralized **[Data Modeling Reference](https://github.com/KrabbyHQ/demo_clients/blob/main/docs/reference/data_model/schema.sql)** to ensure consistency across the stack.
+- **Standardized Commits:** We enforce [Conventional Commits](https://conventionalcommits.org) using `commitlint`.
+- **Automated Quality Assurance:** Every project utilizes `Husky` git hooks for local formatting, linting, and static analysis.
+- **Unified Configuration:** Services share a hierarchical configuration system (`base.toml` -> `env.toml` -> `local.toml`) with environment variable overrides.
+- **Type Safety:** We maintain a centralized **[Data Modeling Reference](https://github.com/KrabbyHQ/demo_clients/blob/main/docs/reference/data_model/schema.sql)** to ensure consistency across the stack.
 
 ### Getting Involved
 
