@@ -35,7 +35,7 @@ This section provides technical documentation for the entire Krabby project. It 
 
 2. [WebRTC Glossary(Important Terms to Know)](#webrtc-glossary-important-terms-to-know)
 
-3. [Roadmap](#-roadmap)
+3. [Our Roadmap](#-roadmap)
 
 4. [Our Core Rust Stack](#-our-core-rust-stack)
 
@@ -162,7 +162,7 @@ Acts as a **relay server** when direct connectivity fails due to strict NAT or f
 
 This set of concepts covers the **core building blocks involved in establishing and maintaining WebRTC connections within the Krabby ecosystem.**
 
-### Roadmap
+### Our Roadmap
 
 Once fully stable, Krabby will be available for use in three distinct modes:
 
@@ -317,15 +317,13 @@ Krabby is built to world-class standards, ensuring that the project remains main
 
 ### Getting Involved
 
-Krabby is built by the community, for the community. We welcome contributions ranging from core Rust performance optimizations to high-fidelity frontend UI components.
+Krabby is built by the community, for the community. We welcome contributions ranging from core Rust performance optimizations to high-fidelity frontend UIs, and documentation.
 
 1.  **Explore the Code:** Dive into the respective service directories to read their localized documentation.
 
-2.  **Follow the Standards:** Ensure your environment is set up with `bun` and `rustup` to trigger the automated contribution checks.
+2.  **Follow the Standards:** Ensure your environment is set up with `husky` to trigger the automated contribution checks locally.
 
 3.  **Build the Future:** Help us define the next generation of real-time communication infrastructure.
-
-<br />
 
 ### FAQs
 
