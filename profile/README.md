@@ -27,25 +27,25 @@ Whether you are building high-concurrency chat systems, sub-millisecond audio/vi
 
 ## Documentation
 
-This section provides technical documentation for the entire Krabby project. It details our architectural philosophy, provides a general overview into the Krabby ecosystem, and includes the key information needed to help you settle quickly into intergating our services.
+This section provides technical documentation for the entire Krabby project. It details our architectural philosophy, provides a general overview into the Krabby ecosystem, and includes the key information needed to help you settle quickly into intergrating our services.
 
 ### Table Of Content
 
-1. [Design Philosophy](#-design-philosophy)
+1. [Design Philosophy](#design-philosophy)
 
 2. [WebRTC Glossary(Important Terms to Know)](#webrtc-glossary-important-terms-to-know)
 
-3. [Our Roadmap](#-roadmap)
+3. [Our Roadmap](#roadmap)
 
-4. [Our Core Rust Stack](#-our-core-rust-stack)
+4. [Our Core Rust Stack](#our-core-rust-stack)
 
-5. [Architectural Overview](#-architectural-overview)
+5. [Architectural Overview](#architectural-overview)
 
-6. [Development & Open Source Standards](#-development--open-source-standards)
+6. [Development & Open Source Standards](#development--open-source-standards)
 
-7. [Getting Involved](#-getting-involved)
+7. [Getting Involved](#getting-involved)
 
-8. [FAQs](#-faqs)
+8. [FAQs](#faqs)
 
 ### Design Philosophy
 
