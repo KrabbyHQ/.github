@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "krabby_org",
+  "version": "1.0.0",
+  "description": "Organizational base for the Krabby ecosystem/project",
+  "repository": "https://github.com/KrabbyHQ/.github",
+  "homepage": "https://github.com/KrabbyHQ",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.4.2",
+    "@commitlint/config-conventional": "^20.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.2"
+  }
+}
