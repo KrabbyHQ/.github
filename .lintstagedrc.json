@@ -1,0 +1,4 @@
+{
+  "**/*.md": ["prettier --write"],
+  "**/*.json": ["prettier --write"]
+}

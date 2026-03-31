@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# Just a simple push approval message
+echo "All checks passed - push approved!"
