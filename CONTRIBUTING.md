@@ -57,8 +57,6 @@ Whether it's a better way to phrase our documentation, a new brand asset, or an 
 
 ### Setup
 
-Please follow the instruction in README.md for project prerequisites and environment setup.
-
 We use Husky and Commitlint to ensure high contribution standards. After cloning the repo, make sure to run:
 
 ```shell
@@ -121,11 +119,11 @@ Refer to the attached [pull request template](.github/pull_request_template.md) 
 
 - Keep PRs as small as possible. Bulky PRs(PRs with plenty commits/changes) will demand longer reviews, hence the longer it will be before your contribution will possibly be accepted.
 
-- Write clearly. Ensure to communicate your incoming contributions as consisely as you possibly can.
+- Write clearly. Ensure to communicate your incoming contributions as concisely as possible.
 
 ## Conclusion.
 
-Thanks once again for your interest in contributing to this project. Hope to see you PR soon. Cheers!!!
+Thanks once again for your interest in contributing to this project. Hope to see your PR soon. Cheers!!!
 
 ## Attribution
 
