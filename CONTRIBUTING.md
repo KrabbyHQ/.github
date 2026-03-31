@@ -91,7 +91,7 @@ This project uses **Conventional Commits**, enforced by `Commitlint` and `Husky`
 
 Structure:
 
-```
+```text
 <type>[optional scope]: <description>
 
 [optional body]

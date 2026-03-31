@@ -295,7 +295,8 @@ The broker for peer-to-peer multimedia sessions.
 
 Reference implementations showcasing best-practice API integrations.
 
-- **Web:** A high-fidelity Next.js 16 platform built to production-grade standards, with state-of-art web engineering tooling.
+- **Web:** A high-fidelity Next.js 16 platform built to production-grade standards, with state-of-the-art web engineering tooling.
+
 - **Mobile:** A cross-platform Expo/React Native application built to provide a matching experience for mobile platforms.
 
 #### STUN/TURN Infrastructure
